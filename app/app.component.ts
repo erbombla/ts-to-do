@@ -4,16 +4,21 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
   <div class="container">
-    <h1 class="bg-primary">Tasks</h1>
+    <h1 class="bg-primary text-center">Tasks</h1>
     <div class="row">
 
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-body">
             <h4>Current Task: {{currentFocus}}</h4>
-            <h5>{{month}}/{{day}}/{{year}}</h5>
+            <h5 class="text-muted">{{month}}/{{day}}/{{year}}</h5>
             <ul>
-              <li [class]="priorityColor(currentTask)" (click)="isDone(currentTask)" *ngFor="let currentTask of tasks">{{currentTask.description}} <button class="btn btn-default btn-xs" type="button" (click)="editTask(currentTask)">Edit</button></li>
+              <li (click)="isDone(currentTask)" *ngFor="let currentTask of tasks">
+                {{currentTask.description}}
+                <button (click)= " "editTask(currentTask)" class="btn btn-default btn-xs" type="button" ">
+                  Edit
+                </button>
+              </li>
             </ul>
           </div>
         </div>
@@ -51,9 +56,9 @@ export class AppComponent {
   day: number = this.currentTime.getDate();
   year: number = this.currentTime.getFullYear();
   tasks: Task[] = [
-    new Task('Finish Angular homework', 3),
+    new Task('Finish code review', 3),
     new Task('Brainstorm JS group projects', 2),
-    new Task('Watch Net Ninja Angular 2 Tutorials', 2)
+    new Task('Watch Net Ninja Angular 2 tutorials', 1)
   ];
 
   selectedTask: Task = null;
@@ -66,14 +71,13 @@ export class AppComponent {
     this.selectedTask = clickedTask;
   }
 
-
   priorityColor(currentTask) {
     if (currentTask.priority === 3){
-      return "bg-danger";
+      return "text-danger";
     } else if (currentTask.priority === 2) {
-      return  "bg-warning";
+      return  "text-warning";
     } else {
-      return "bg-info";
+      return "text-primary";
     }
   }
 }
