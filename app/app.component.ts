@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-  <div class="container">
-    <h1 class="bg-primary text-center">Tasks</h1>
+  <div class="container-fluid">
+    <h1 class="bg-primary text-center">To Do List</h1>
     <div class="row">
 
       <div class="col-md-4">
@@ -13,33 +13,30 @@ import { Component } from '@angular/core';
             <h4>Current Task: {{currentFocus}}</h4>
             <h5 class="text-muted">{{month}}/{{day}}/{{year}}</h5>
             <ul>
-              <li (click)="isDone(currentTask)" *ngFor="let currentTask of tasks">
+              <li [class]="priorityColor(currentTask)" (click)="isDone(currentTask)" *ngFor="let currentTask of tasks">
                 {{currentTask.description}}
-                <button (click)= " "editTask(currentTask)" class="btn btn-default btn-xs" type="button" ">
-                  Edit
-                </button>
+                <button type="button" class="btn btn-default btn-xs" (click)="editTask(currentTask)">Edit</button>
               </li>
             </ul>
           </div>
         </div>
 
-        <div *ngIf="selectedTask" class="panel panel-primary">
+        <div *ngIf="selectedTask" class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title">Selected Task: {{selectedTask.description}}</h4>
+            <h4 class="panel-title">Edit Task: {{selectedTask.description}}</h4>
           </div>
           <div class="panel-body">
-            <p>Task Complete? {{selectedTask.done}}<p>
-            <h5>Edit Task</h5>
-            <label>Enter Task Description:</label>
+            <p>Task Status: {{selectedTask.done}}<p>
+            <label>Enter New Description</label>
               <input [(ngModel)]="selectedTask.description" type="text" class="form-control">
               <br>
-              <label>Enter Task Priority (1-3):</label>
+              <label>Enter Priority</label>
               <br>
-              <input type="radio" [(ngModel)]="selectedTask.priority" [value]="1"> 1 (Low Priority)<br>
-              <input type="radio" [(ngModel)]="selectedTask.priority" [value]="2"> 2 (Medium Priority)<br>
-              <input type="radio" [(ngModel)]="selectedTask.priority" [value]="3"> 3 (High Priority)
+              <input type="radio" [(ngModel)]="selectedTask.priority" [value]="1"> 1 Low<br>
+              <input type="radio" [(ngModel)]="selectedTask.priority" [value]="2"> 2 Medium<br>
+              <input type="radio" [(ngModel)]="selectedTask.priority" [value]="3"> 3 High<br>
               <br>
-              <button class="btn btn-default btn-xs" type="button" (click)="finishedEditing">Submit</button>
+              <button type="button" class="btn btn-default btn-xs" (click)="finishedEditing()">Done</button>
           </div>
         </div>
       </div>
@@ -55,6 +52,7 @@ export class AppComponent {
   month: number = this.currentTime.getMonth() + 1;
   day: number = this.currentTime.getDate();
   year: number = this.currentTime.getFullYear();
+  // Property Binding
   tasks: Task[] = [
     new Task('Finish code review', 3),
     new Task('Brainstorm JS group projects', 2),
@@ -63,14 +61,11 @@ export class AppComponent {
 
   selectedTask: Task = null;
 
-  finishedEditing() {
-    this.selectedTask = null
-  }
-
   editTask(clickedTask) {
     this.selectedTask = clickedTask;
   }
 
+  // Property Binding
   priorityColor(currentTask) {
     if (currentTask.priority === 3){
       return "text-danger";
@@ -80,8 +75,11 @@ export class AppComponent {
       return "text-primary";
     }
   }
+    finishedEditing() {
+      this.selectedTask = null
+    }
 }
-
+//Property Binding
 export class Task {
   public done: boolean = false;
   constructor(public description: string, public priority: number) { }
